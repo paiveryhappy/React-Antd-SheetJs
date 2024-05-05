@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react'
 import dataSource from '@/data/dataSource';
 import { Table, Rate } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
+import * as XLSX from "xlsx";
 //import 'antd/dist/antd.css'; 
 
 function TableData({ searchTechnician, searchCustomer, searchModule, searchRequest, changeTechnicianInput, changeModuleInput, changeRequestInput, changeCustomerInput }) {
-
     const [data, setData] = useState(dataSource);
 
     const handleRefresh = () => {
@@ -17,14 +17,9 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
         changeCustomerInput('');
     }
 
-    console.log(searchTechnician);
-    console.log(searchCustomer);
-    console.log(searchRequest);
-    console.log(searchModule);
-
     useEffect(() => {
         let filteredData = dataSource;
-
+        // filter data in Table part
         if (searchTechnician) {
             filteredData = filteredData.filter(record =>
                 record.technician.toLowerCase().includes(searchTechnician.toLowerCase())
@@ -47,11 +42,20 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
         } else {
             setData(dataSource)
         }
-
         setData(filteredData);
     }, [searchTechnician, searchCustomer, searchModule, searchRequest]);
 
+    const handleExport = () => {
+        const workBook = XLSX.utils.book_new()
+        const workSheet = XLSX.utils.json_to_sheet(data);
 
+        const currentDate = new Date();
+        const todayDate = currentDate.toISOString().slice(0, 10);
+        const fileName = `Ticket Evolution ${todayDate}.xlsx`
+
+        XLSX.utils.book_append_sheet(workBook, workSheet, "sheet1");
+        XLSX.writeFile(workBook, fileName)
+    }
 
     const columns = [
         {
@@ -120,7 +124,7 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
             <div className='relative'>
                 <button onClick={handleRefresh} className='absolute right-2/4 border border-solid bg-slate-50 w-44 rounded text-lg'> <ReloadOutlined /> refresh</button>
 
-                <button className='absolute right-0 border border-solid bg-slate-50 w-32 rounded text-green-500'>Export Excel</button>
+                <button onClick={handleExport} className='absolute right-0 border border-solid bg-slate-50 w-32 rounded text-green-500'>Export Excel</button>
 
             </div>
 

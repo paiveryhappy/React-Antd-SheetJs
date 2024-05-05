@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Tabs, Input } from 'antd';
 import TableData from "../components/TableData"
+import XLSX from "xlsx";
 
 export default function Home() {
 
