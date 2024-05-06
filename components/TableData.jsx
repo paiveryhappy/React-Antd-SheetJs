@@ -6,23 +6,23 @@ import { ReloadOutlined } from '@ant-design/icons';
 import * as XLSX from "xlsx";
 //import 'antd/dist/antd.css'; 
 
-function TableData({ searchTechnician, searchCustomer, searchModule, searchRequest, changeTechnicianInput, changeModuleInput, changeRequestInput, changeCustomerInput }) {
+function TableData({ searchWriter, searchCustomer, searchCover, searchCategory, changeWriterInput, changeCoverInput, changeCategoryInput, changeCustomerInput }) {
     const [data, setData] = useState(dataSource);
 
     const handleRefresh = () => {
         setData(dataSource);
-        changeTechnicianInput('');
-        changeModuleInput('');
-        changeRequestInput('');
+        changeWriterInput('');
+        changeCoverInput('');
+        changeCategoryInput('');
         changeCustomerInput('');
     }
 
     useEffect(() => {
         let filteredData = dataSource;
         // filter data in Table part
-        if (searchTechnician) {
+        if (searchWriter) {
             filteredData = filteredData.filter(record =>
-                record.technician.toLowerCase().includes(searchTechnician.toLowerCase())
+                record.writer.toLowerCase().includes(searchWriter.toLowerCase())
             );
         }
         if (searchCustomer) {
@@ -30,20 +30,20 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
                 record.customer.toLowerCase().includes(searchCustomer.toLowerCase())
             );
         }
-        if (searchModule) {
+        if (searchCover) {
             filteredData = filteredData.filter(record =>
-                record.module.toLowerCase().includes(searchModule.toLowerCase())
+                record.cover.toLowerCase().includes(searchCover.toLowerCase())
             );
         }
-        if (searchRequest) {
+        if (searchCategory) {
             filteredData = filteredData.filter(record =>
-                record.requestType.toLowerCase().includes(searchRequest.toLowerCase())
+                record.category.toLowerCase().includes(searchCategory.toLowerCase())
             );
         } else {
             setData(dataSource)
         }
         setData(filteredData);
-    }, [searchTechnician, searchCustomer, searchModule, searchRequest]);
+    }, [searchWriter, searchCustomer, searchCover, searchCategory]);
 
     const handleExport = () => {
         const workBook = XLSX.utils.book_new()
@@ -51,7 +51,7 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
 
         const currentDate = new Date();
         const todayDate = currentDate.toISOString().slice(0, 10);
-        const fileName = `Ticket Evolution ${todayDate}.xlsx`
+        const fileName = `Writer Rating ${todayDate}.xlsx`
 
         XLSX.utils.book_append_sheet(workBook, workSheet, "sheet1");
         XLSX.writeFile(workBook, fileName)
@@ -59,12 +59,12 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
 
     const columns = [
         {
-            key: 'ticketId',
-            title: "Ticket ID",
-            dataIndex: 'ticketId',
+            key: 'id',
+            title: "ID",
+            dataIndex: 'id',
             width: 100,
             align: "center",
-            sorter: (a, b) => a.ticketId - b.ticketId,
+            sorter: (a, b) => a.id - b.id,
         },
         {
             key: 'customer',
@@ -74,39 +74,39 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
             width: 140,
         },
         {
-            key: 'subject',
-            title: "Subject",
-            dataIndex: 'subject',
+            key: 'article',
+            title: "Article",
+            dataIndex: 'article',
             width: 250,
         },
         {
-            key: 'module',
-            title: "Module",
-            dataIndex: 'module',
+            key: 'cover',
+            title: "Cover",
+            dataIndex: 'cover',
             align: "center",
             width: 80,
         },
         {
-            key: 'requestType',
-            title: "Request Type",
-            dataIndex: 'requestType',
+            key: 'category',
+            title: "Category",
+            dataIndex: 'category',
             align: "center",
             width: 150,
         },
         {
-            key: 'technician',
-            title: "Technician",
-            dataIndex: 'technician',
+            key: 'writer',
+            title: "Writer",
+            dataIndex: 'writer',
             align: "center",
             width: 230,
         },
         {
-            key: 'evolution',
-            title: "Evolution",
-            dataIndex: 'evolution',
+            key: 'rating',
+            title: "Rating",
+            dataIndex: 'rating',
             width: 160,
             align: "center",
-            sorter: (a, b) => a.evolution - b.evolution,
+            sorter: (a, b) => a.rating - b.rating,
             render: (rating) => <Rate disabled defaultValue={rating} />
         },
         {
@@ -133,7 +133,7 @@ function TableData({ searchTechnician, searchCustomer, searchModule, searchReque
                     dataSource={data}
                     size='middle'
                     pagination={false}
-                    rowKey={record => record.ticketId}
+                    rowKey={record => record.id}
                     rowClassName={(record, index) => index % 2 === 0 ? "table-row-light" : "table-row-dark"}
                 />
             </div>

@@ -6,19 +6,19 @@ import XLSX from "xlsx";
 
 export default function Home() {
 
-  const [searchTechnician, setSearchTechnician] = useState("");
-  const [searchModule, setSearchModule] = useState("");
-  const [searchRequest, setSearchRequest] = useState("");
+  const [searchWriter, setSearchWriter] = useState("");
+  const [searchCover, setSearchCover] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
   const [searchCustomer, setSearchCustomer] = useState("");
 
-  const setTechnicianInput = (newValue) => {
-    setSearchTechnician(newValue);
+  const setWriterInput = (newValue) => {
+    setSearchWriter(newValue);
   }
-  const setModuleInput = (newValue) => {
-    setSearchModule(newValue);
+  const setCoverInput = (newValue) => {
+    setSearchCover(newValue);
   }
-  const setRequestInput = (newValue) => {
-    setSearchRequest(newValue);
+  const setCategoryInput = (newValue) => {
+    setSearchCategory(newValue);
   }
   const setCustomerInput = (newValue) => {
     setSearchCustomer(newValue);
@@ -27,27 +27,27 @@ export default function Home() {
     <>
       <main className="container">
         <header className="my-3">
-          <h2 className="text-xl font-bold">Ticket Evolution</h2>
+          <h2 className="text-xl font-bold">Article</h2>
           <div className="grid-container mt-2">
             <div>
-              <label htmlFor="technician" className="font-bold">Technician: </label>
-              <Input id="technician"
-                onChange={(e) => setSearchTechnician(e.target.value)}
-                value={searchTechnician} />
+              <label htmlFor="writer" className="font-bold">Writer: </label>
+              <Input id="writer"
+                onChange={(e) => setSearchWriter(e.target.value)}
+                value={searchWriter} />
             </div>
 
             <div>
-              <label htmlFor="sapModule" className="font-bold">SAP Moduls: </label>
-              <Input id="sapModule"
-                onChange={(e) => setSearchModule(e.target.value)}
-                value={searchModule} />
+              <label htmlFor="cover" className="font-bold">Cover: </label>
+              <Input id="cover"
+                onChange={(e) => setSearchCover(e.target.value)}
+                value={searchCover} />
             </div>
 
             <div>
-              <label htmlFor="requestType" className="font-bold">Request Type: </label>
-              <Input id="requestType"
-                onChange={(e) => setSearchRequest(e.target.value)}
-                value={searchRequest} />
+              <label htmlFor="CategoryType" className="font-bold">Category: </label>
+              <Input id="CategoryType"
+                onChange={(e) => setSearchCategory(e.target.value)}
+                value={searchCategory} />
             </div>
 
             <div>
@@ -64,16 +64,16 @@ export default function Home() {
           defaultActiveKey="1"
           items={[
             {
-              label: "Evolution",
+              label: "Article Detail",
               key: "1",
               children: <TableData
-                searchTechnician={searchTechnician}
+                searchWriter={searchWriter}
                 searchCustomer={searchCustomer}
-                searchModule={searchModule}
-                searchRequest={searchRequest}
-                changeTechnicianInput={setTechnicianInput}
-                changeModuleInput={setModuleInput}
-                changeRequestInput={setRequestInput}
+                searchCover={searchCover}
+                searchCategory={searchCategory}
+                changeWriterInput={setWriterInput}
+                changeCoverInput={setCoverInput}
+                changeCategoryInput={setCategoryInput}
                 changeCustomerInput={setCustomerInput} />,
             },
           ]}
